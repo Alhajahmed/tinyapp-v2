@@ -1,1 +1,1 @@
-# tinyapp-v2
+# tinyapp
