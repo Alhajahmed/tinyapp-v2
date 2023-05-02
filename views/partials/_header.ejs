@@ -24,18 +24,8 @@
     </form>
     <p class="navbar-text">Logged in as: <%= user.email %></p>
     <% } else { %>
-    <form method="POST" action="/login">
-      <div class="login form">
-        <input
-          type="text"
-          class="form-control"
-          id="username"
-          name="username"
-          placeholder="Enter your username"
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">login</button>
-    </form>
+    <a class="nav-item nav-link" href="/login">Login</a>
+    <a class="nav-item nav-link" href="/register">Register</a>
     <% } %>
   </nav>
 </header>
