@@ -101,14 +101,21 @@ app.post("/urls/:id", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const { username } = req.body;
-  res.cookie("username", username);
+  const { email, password } = req.body;
+  const user = getUserByEmail(email, users);
+  if (!user) {
+    return res.status(400).send("Email not found");
+  }
+  if (password !== user.password) {
+    return res.status(400).send("Incorrect password");
+  }
+  res.cookie("user_id", user.id);
   res.redirect("/urls");
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("username");
-  res.redirect("/urls");
+  res.clearCookie("user_id");
+  res.redirect("/login");
 });
 
 app.post("/register", (req, res) => {
