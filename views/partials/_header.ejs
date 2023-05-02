@@ -19,8 +19,11 @@
       </div>
     </div>
     <% if (username) { %>
+    <form method="POST" action="/logout">
+      <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
     <p class="navbar-text">Logged in as: <%= username %></p>
-    <% } %>
+    <% } if (!username) { %>
     <form method="POST" action="/login">
       <div class="login form">
         <input
@@ -33,5 +36,6 @@
       </div>
       <button type="submit" class="btn btn-primary">login</button>
     </form>
+    <% } %>
   </nav>
 </header>
