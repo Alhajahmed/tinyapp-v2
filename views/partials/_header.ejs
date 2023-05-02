@@ -23,7 +23,7 @@
       <button type="submit" class="btn btn-primary">Logout</button>
     </form>
     <p class="navbar-text">Logged in as: <%= username %></p>
-    <% } if (!username) { %>
+    <% } else { %>
     <form method="POST" action="/login">
       <div class="login form">
         <input
