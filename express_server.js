@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 8080; // default port 8080
 const cookieParser = require("cookie-parser");
+const { render } = require("ejs");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -106,10 +107,10 @@ app.post("/logout", (req, res) => {
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.statusCode(400).send("Insert your email or password");
+    return res.status(400).send("Insert your email or password");
   }
   if (getUserByEmail(email, users)) {
-    return res.statusCode(400).send("Email is already exist");
+    return res.status(400).send("Email is already exist");
   }
   const id = generateRandomString();
   users[id] = {
