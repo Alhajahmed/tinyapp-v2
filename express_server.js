@@ -105,11 +105,17 @@ app.post("/logout", (req, res) => {
 
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.statusCode(400).send("Insert your email or password");
+  }
+  if (getUserByEmail(email, users)) {
+    return res.statusCode(400).send("Email is already exist");
+  }
   const id = generateRandomString();
   users[id] = {
-    id: id,
-    email: email,
-    password: password,
+    id,
+    email,
+    password,
   };
   res.cookie("user_id", id);
   res.redirect("/urls");
@@ -122,4 +128,13 @@ app.listen(PORT, () => {
 function generateRandomString() {
   let str = Math.random().toString(36).replace("0.", "");
   return str.substring(0, 6);
+}
+
+function getUserByEmail(email, users) {
+  for (const userId in users) {
+    if (users[userId].email === email) {
+      return users[userId];
+    }
+  }
+  return null;
 }
