@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const PORT = 8080; // default port 8080
 const cookieParser = require("cookie-parser");
-const { render } = require("ejs");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -46,8 +45,12 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
+  const user = users[req.cookies["user_id"]];
+  if (!user) {
+    return res.redirect("/login");
+  }
   const templateVars = {
-    user: users[req.cookies["user_id"]],
+    user: user,
   };
   res.render("urls_new", templateVars);
 });
@@ -58,29 +61,47 @@ app.get("/urls/:id", (req, res) => {
     longURL: urlDatabase[req.params.id],
     user: users[req.cookies["user_id"]],
   };
+  if (urlDatabase.id) {
+    res.send("Only members can access this page");
+  }
   res.render("urls_show", templateVars);
 });
 
 app.get("/u/:id", (req, res) => {
   const longURL = urlDatabase[req.params.id];
+  if (!longURL) {
+    return res.send("URL not found");
+  }
   res.redirect(longURL);
 });
 
 app.get("/register", (req, res) => {
+  const user = users[req.cookies["user_id"]];
+  if (user) {
+    return res.redirect("urls");
+  }
   const templateVars = {
-    user: users[req.cookies["user_id"]],
+    user: null,
   };
   res.render("register", templateVars);
 });
 
 app.get("/login", (req, res) => {
+  const user = users[req.cookies["user_id"]];
+  if (user) {
+    return res.redirect("/urls");
+  }
   const templateVars = {
-    user: users[req.cookies["user_id"]],
+    user: null,
   };
   res.render("login", templateVars);
 });
 
 app.post("/urls", (req, res) => {
+  const user = users[req.cookies["user_id"]];
+  if (!user) {
+    return res.send("You must login");
+  }
   const longURL = req.body.longURL;
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = longURL;
@@ -104,10 +125,10 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const user = getUserByEmail(email, users);
   if (!user) {
-    return res.status(400).send("Email not found");
+    return res.status(403).send("Email not found");
   }
   if (password !== user.password) {
-    return res.status(400).send("Incorrect password");
+    return res.status(403).send("Incorrect password");
   }
   res.cookie("user_id", user.id);
   res.redirect("/urls");
@@ -144,7 +165,12 @@ function generateRandomString() {
   let str = Math.random().toString(36).replace("0.", "");
   return str.substring(0, 6);
 }
-
+/**
+ * This function finds user by email
+ * @param {string} email
+ * @param {object} users
+ * @returns userObject, null
+ */
 function getUserByEmail(email, users) {
   for (const userId in users) {
     if (users[userId].email === email) {
