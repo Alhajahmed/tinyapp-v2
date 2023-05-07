@@ -8,20 +8,27 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
-    <title>URL - TinyApp Example</title>
+    <title>URL - TinyApp</title>
   </head>
 
   <body>
+    <!-- Include the header partial -->
     <%- include('partials/_header.ejs') %>
 
     <div class="card text-center">
       <div class="card-header"></div>
       <div class="card-body">
+        <!-- Display the long URL -->
         <h5 class="card-title">TinyURL for: <%= longURL %></h5>
         <p class="card-text">
+          <!-- Display the short URL ID as a link -->
           Short URL ID: <a href="/u/<%= id %>"><%= id %></a>
         </p>
+        <!-- Form for updating the long URL, POST method and action set to "/urls/shorturl -->
         <form method="POST" action="/urls/<%= id %>">
+          <!-- The ID is retrieved from the variable id, represents the short URL ID -->
+
+          <!-- To enter the new long URL -->
           <div class="form-group">
             <label for="longURL"> New long URL:</label>
             <input
@@ -32,6 +39,7 @@
               placeholder="Enter your long URL"
             />
           </div>
+          <!-- Update button -->
           <button type="submit" class="btn btn-primary">Update</button>
         </form>
       </div>

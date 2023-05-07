@@ -17,30 +17,41 @@
     <title>TinyApp</title>
   </head>
   <body>
+    <!-- Include the header partial -->
     <%- include('partials/_header.ejs') %>
 
     <main style="margin: 1em">
+      <!-- Heading for the My URLs section -->
       <h3>My URLs</h3>
+      <!-- Table for displaying the URLs -->
       <table class="table">
         <thead>
           <tr>
+            <!-- Table header for the Short URL ID column -->
             <th scope="col">Short URL ID</th>
+            <!-- Table header for the Long URL column -->
             <th scope="col">Long URL</th>
           </tr>
         </thead>
         <tbody>
+          <!-- Loop through the URLs -->
           <% for (let id in urls) { %>
           <tr>
+            <!-- Display the Short URL ID -->
             <td><%= id %></td>
+            <!-- Display the Long URL -->
             <td><%= urls[id].longURL %></td>
             <td>
+              <!-- Form for deleting the URL -->
               <form method="POST" action="/urls/<%= id %>/delete">
+                <!-- Delete button -->
                 <button type="submit" class="btn btn-outline-danger">
                   Delete
                 </button>
               </form>
             </td>
             <td>
+              <!-- Edit button as a link -->
               <a class="btn btn-outline-primary" href="/urls/<%= id %>/">
                 Edit</a
               >

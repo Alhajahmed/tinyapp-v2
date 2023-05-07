@@ -15,15 +15,18 @@
       crossorigin="anonymous"
     />
 
-    <title>New URL - TinyApp Example</title>
+    <title>New URL - TinyApp</title>
   </head>
 
   <body>
+    <!-- Including a header partial -->
     <%- include('partials/_header') %>
 
     <main style="margin: 1em">
       <h3>Create TinyURL</h3>
+      <!-- Form with method set to POST and action set to "/urls" -->
       <form class="form-inline" action="/urls" method="POST">
+        <!-- input field where users can enter a URL -->
         <div class="form-group mb-2">
           <label for="longURL">Enter a URL:</label>
           <input
@@ -33,6 +36,7 @@
             placeholder="http://"
             style="width: 300px; margin: 1em"
           />
+          <!-- Submit button for form submission -->
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>

@@ -19,15 +19,50 @@
   </head>
 
   <body>
+    <!-- Including a header partial -->
     <%- include('partials/_header') %>
 
+    <style>
+      form {
+        display: flex;
+        flex-direction: column;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      label {
+        margin-bottom: 0.5rem;
+      }
+
+      input[type="email"],
+      input[type="password"] {
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+
+    <!-- Form with method set to POST and action set to "/register" -->
     <form method="POST" action="/register">
+      <!-- Email input field -->
       <label for="email">Email Address</label>
       <input type="email" name="email" id="email" />
 
+      <!-- Password input field -->
       <label for="password">Password</label>
       <input type="password" name="password" id="password" />
 
+      <!-- Submit button for form submission -->
       <div>
         <button type="submit" class="btn btn-primary">Register</button>
       </div>
